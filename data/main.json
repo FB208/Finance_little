@@ -1,0 +1,21 @@
+{
+
+    "datagroups": [
+        {
+            "name": "Bill",
+            "money": 10000,
+            "insertDate": "",
+            "backDate": "",
+            "expectInterst": 500,
+            "remark": ""
+        },
+		{
+            "name": "coollll1",
+            "money": 10000,
+            "insertDate": "",
+            "backDate": "",
+            "expectInterst": 500,
+            "remark": ""
+        }
+    ]
+}

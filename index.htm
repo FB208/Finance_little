@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="gb2312">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <style>
+  .el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+  }
+  
+  .el-aside {
+    color: #333;
+  }
+  </style>
+</head>
+<body>
+<div id="app">
+<el-container>
+<el-header style="text-align: right; font-size: 12px">
+      <span>王小虎</span>
+    </el-header>
+  <el-container >
+     <el-aside width="200px" >
+    <el-menu :default-openeds="['1', '1']" style="min-height:500px;">
+     
+      <el-submenu index="1">
+        <template slot="title"><i class="el-icon-menu"></i>菜单</template>
+        <el-menu-item-group>
+          <template slot="title">默认分组</template>
+          <el-menu-item index="1-1">查询及录入</el-menu-item>
+          <el-menu-item index="1-2">选项2</el-menu-item>
+        </el-menu-item-group>
+        
+
+    </el-menu>
+  </el-aside>
+    
+    <el-main>
+      <div id="mount-point"></div>
+    </el-main>
+  </el-container>
+</el-container>
+</div>
+</body>
+  <!-- 先引入 Vue -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+  <script>
+    var Main = {};
+	var Ctor = Vue.extend(Main)
+	new Ctor().$mount('#app')
+
+	Vue.http.get('/data/main.json').then(response => {
+				var someData=response.body;
+						console.log(someData)
+				var Profile = Vue.extend({
+					template: '<el-table :data="datagroups" style="width: 100%"><el-table-column prop="name" label="资产" width="180"></el-table-column><el-table-column prop="money" label="金额" width="180"></el-table-column><el-table-column prop="insertDate" label="入账时间"></el-table-column></el-table>',
+					data: function () {
+					return someData;
+	  }
+	})；
+	// 创建 Profile 实例，并挂载到一个元素上。
+	new Profile().$mount('#mount-point')；
+  }, response => {
+    alert('请求失败')
+  });
+
+  </script>
+</html>
