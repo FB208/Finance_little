@@ -60,13 +60,13 @@
 				var someData=response.body;
 						console.log(someData)
 				var Profile = Vue.extend({
-					template: '<el-table :data="datagroups" style="width: 100%"><el-table-column prop="name" label="资产" width="180"></el-table-column><el-table-column prop="money" label="金额" width="180"></el-table-column><el-table-column prop="insertDate" label="入账时间"></el-table-column></el-table>',
+					template: '<el-table :data="dataGroups" style="width: 100%"><el-table-column prop="name" label="资产" width="180"></el-table-column><el-table-column prop="money" label="金额" width="180"></el-table-column><el-table-column prop="insertDate" label="入账时间"></el-table-column><el-table-column prop="backDate" label="回款日"></el-table-column><el-table-column prop="expectInterst" label="预期利息"></el-table-column><el-table-column prop="remark" label="备注"></el-table-column></el-table>',
 					data: function () {
 					return someData;
 	  }
-	})；
+	});
 	// 创建 Profile 实例，并挂载到一个元素上。
-	new Profile().$mount('#mount-point')；
+	new Profile().$mount('#mount-point');
   }, response => {
     alert('请求失败')
   });

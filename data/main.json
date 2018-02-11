@@ -1,6 +1,6 @@
 {
-
-    "datagroups": [
+	"data":"test",
+    "dataGroups": [
         {
             "name": "Bill",
             "money": 10000,
