@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="gb2312">
+  
+ 
+</head>
+<body>
+<form method="post" action="http://123.207.187.133:10003/test.py" target="_blank">
+<div id="app">
+<input type="text" name="ServiceCode"/>
+<input type="submit" value="tijiao"/>
+</div>
+</form>
+</body>
+
+
+	Vue.http.get('http://123.207.187.133:10003/test.py?ServiceCode=qq').then(response => {
+				console.log(response);
+	
+  }, response => {
+    alert('请求失败')
+  });
+ 

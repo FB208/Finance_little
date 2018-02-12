@@ -56,14 +56,38 @@
 	var Ctor = Vue.extend(Main)
 	new Ctor().$mount('#app')
 
-	Vue.http.get('/data/main.json').then(response => {
+	Vue.http.post('http://123.207.187.133:10003/getjson.py').then(response => {
 				var someData=response.body;
 						console.log(someData)
+
 				var Profile = Vue.extend({
-					template: '<el-table :data="dataGroups" style="width: 100%"><el-table-column prop="name" label="资产" width="180"></el-table-column><el-table-column prop="money" label="金额" width="180"></el-table-column><el-table-column prop="insertDate" label="入账时间"></el-table-column><el-table-column prop="backDate" label="回款日"></el-table-column><el-table-column prop="expectInterst" label="预期利息"></el-table-column><el-table-column prop="remark" label="备注"></el-table-column></el-table>',
+					template: '<el-table :data="dataGroups" style="width: 100%" @cell-click="Edit"><el-table-column prop="name" label="资产" width="180" ><template slot-scope="scope"><el-input v-show="scope.row.edit" size="small" v-model="scope.row.name" :autofocus="true" @blur="SaveEdit(scope.row)"></el-input><span v-show="!scope.row.edit">{{scope.row.name}}</span></template></el-table-column><el-table-column prop="money" label="金额" width="180"></el-table-column><el-table-column prop="insertDate" label="入账时间"></el-table-column><el-table-column prop="backDate" label="回款日"></el-table-column><el-table-column prop="expectInterst" label="预期利息"></el-table-column><el-table-column prop="remark" label="备注"></el-table-column><el-table-column prop="edit" label="备注"></el-table-column></el-table>',
 					data: function () {
 					return someData;
-	  }
+	  },
+	  methods:{
+            Edit(row, column, cell, event){
+				row.edit=true;
+				//this.onCellClick(event);
+            },
+			onCellClick(event){
+				this.$nextTick(function(){
+					$(event.target).children().find("input").focus();
+				})
+			},
+			SaveEdit(row){
+				console.log(row)
+				row.edit=false;
+				//提交至服务器
+				console.log(response.body)
+				Vue.http.post('http://123.207.187.133:10003/setjson.py',response.body).then(response1 => {
+				console.log(response1);
+	
+				  }, response1 => {
+					alert('请求失败')
+				  });
+            }
+        }
 	});
 	// 创建 Profile 实例，并挂载到一个元素上。
 	new Profile().$mount('#mount-point');
