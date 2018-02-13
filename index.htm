@@ -31,8 +31,9 @@
         <template slot="title"><i class="el-icon-menu"></i>菜单</template>
         <el-menu-item-group>
           <template slot="title">默认分组</template>
-          <el-menu-item index="1-1">查询及录入</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
+          <el-menu-item index="1-1"><router-link to="/foo">查询及录入</router-link>
+    </el-menu-item>
+          <el-menu-item index="1-2"><router-link to="/bar">选项2</router-link></el-menu-item>
         </el-menu-item-group>
         
 
@@ -40,6 +41,7 @@
   </el-aside>
     
     <el-main>
+	<router-view></router-view>
       <div id="mount-point"></div>
     </el-main>
   </el-container>
@@ -47,47 +49,48 @@
 </div>
 </body>
   <!-- 先引入 Vue -->
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
   <!-- 引入组件库 -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
   <script>
-    var Main = {};
-	var Ctor = Vue.extend(Main)
-	new Ctor().$mount('#app')
 
-	Vue.http.post('http://123.207.187.133:10003/getjson.py').then(response => {
-				var someData=response.body;
-						console.log(someData)
+
+//'http://123.207.187.133:10003/getjson.py'
+//'/data/main.json'
+	Vue.http.get('http://123.207.187.133:10003/getjson.py').then(response => {
+				console.log(response)
+				var someData=response.body
+						
 
 				var Profile = Vue.extend({
 					template: '<el-table :data="dataGroups" style="width: 100%" @cell-click="Edit"><el-table-column prop="name" label="资产" width="180" ><template slot-scope="scope"><el-input v-show="scope.row.edit" size="small" v-model="scope.row.name" :autofocus="true" @blur="SaveEdit(scope.row)"></el-input><span v-show="!scope.row.edit">{{scope.row.name}}</span></template></el-table-column><el-table-column prop="money" label="金额" width="180"></el-table-column><el-table-column prop="insertDate" label="入账时间"></el-table-column><el-table-column prop="backDate" label="回款日"></el-table-column><el-table-column prop="expectInterst" label="预期利息"></el-table-column><el-table-column prop="remark" label="备注"></el-table-column><el-table-column prop="edit" label="备注"></el-table-column></el-table>',
 					data: function () {
 					return someData;
-	  },
-	  methods:{
-            Edit(row, column, cell, event){
-				row.edit=true;
-				//this.onCellClick(event);
-            },
-			onCellClick(event){
-				this.$nextTick(function(){
-					$(event.target).children().find("input").focus();
-				})
-			},
-			SaveEdit(row){
-				console.log(row)
-				row.edit=false;
-				//提交至服务器
-				console.log(response.body)
-				Vue.http.post('http://123.207.187.133:10003/setjson.py',response.body).then(response1 => {
-				console.log(response1);
-	
-				  }, response1 => {
-					alert('请求失败')
-				  });
-            }
-        }
+				},
+				  methods:{
+						Edit(row, column, cell, event){
+							row.edit=true;
+							//this.onCellClick(event);
+						},
+						onCellClick(event){
+							this.$nextTick(function(){
+								$(event.target).children().find("input").focus();
+							})
+						},
+						SaveEdit(row){
+							console.log(row)
+							row.edit=false;
+							//提交至服务器
+							console.log(response.body)
+							Vue.http.post('http://123.207.187.133:10003/setjson.py',response.body).then(response1 => {
+							console.log(response1);
+				
+							  }, response1 => {
+								alert('请求失败')
+							  });
+						}
+					}
 	});
 	// 创建 Profile 实例，并挂载到一个元素上。
 	new Profile().$mount('#mount-point');
