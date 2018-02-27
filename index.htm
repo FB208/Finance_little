@@ -49,7 +49,7 @@
 </div>
 </body>
   <!-- 先引入 Vue -->
-
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <!-- 引入组件库 -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
@@ -58,7 +58,7 @@
 
 //'http://123.207.187.133:10003/getjson.py'
 //'/data/main.json'
-	Vue.http.get('http://123.207.187.133:10003/getjson.py').then(response => {
+	Vue.http.get('/data/main.json').then(response => {
 				console.log(response)
 				var someData=response.body
 						
